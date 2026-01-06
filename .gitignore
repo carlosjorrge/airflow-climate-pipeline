@@ -1,16 +1,23 @@
+# Ambiente virtual
+venv/
+.venv/
+
+# Airflow local
+.airflow/
+airflow.db
+airflow.cfg
+webserver_config.py
+
+# Logs
+logs/
+
 # Python
 __pycache__/
 *.pyc
 
-# Virtual environment
-venv/
-.env
+# Docker
+*.pid
 
-# Airflow
-airflow.db
-logs/
-.airflow/
-
-# Dados locais
-data/raw/
-data/processed/
+# Sistema
+.DS_Store
+Thumbs.db
