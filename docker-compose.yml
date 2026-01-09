@@ -19,6 +19,8 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
+
     entrypoint: >
       /bin/bash -c "
       airflow db init &&
@@ -42,6 +44,7 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
     ports:
       - "8080:8080"
     command: webserver
@@ -57,6 +60,7 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
     command: scheduler
 
 volumes:

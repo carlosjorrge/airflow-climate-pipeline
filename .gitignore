@@ -14,10 +14,25 @@ logs/
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.env
 
 # Docker
 *.pid
+docker-compose.override.yml
+
+# Dados do pipeline
+data/**/*.csv
+!data/
+!data/raw/
+!data/raw/climatedata/
+!data/processed/
+!data/processed/climatedata/
+!data/analytics/
 
 # Sistema
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
