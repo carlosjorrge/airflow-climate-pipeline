@@ -42,6 +42,16 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+
+      AIRFLOW_VAR_CLIMATE_CITY: Maceió
+      AIRFLOW_VAR_CLIMATE_LATITUDE: "-9.6498"
+      AIRFLOW_VAR_CLIMATE_LONGITUDE: "-35.7089"
+      AIRFLOW_VAR_CLIMATE_TIMEZONE: America/Maceio
+
+      AIRFLOW_VAR_RAW_BASE_PATH: /opt/airflow/data/raw
+      AIRFLOW_VAR_PROCESSED_BASE_PATH: /opt/airflow/data/processed
+      AIRFLOW_VAR_ANALYTICS_BASE_PATH: /opt/airflow/data/analytics
+
     volumes:
       - ./dags:/opt/airflow/dags
       - ./data:/opt/airflow/data
@@ -58,6 +68,16 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+
+      AIRFLOW_VAR_CLIMATE_CITY: Maceió
+      AIRFLOW_VAR_CLIMATE_LATITUDE: "-9.6498"
+      AIRFLOW_VAR_CLIMATE_LONGITUDE: "-35.7089"
+      AIRFLOW_VAR_CLIMATE_TIMEZONE: America/Maceio
+
+      AIRFLOW_VAR_RAW_BASE_PATH: /opt/airflow/data/raw
+      AIRFLOW_VAR_PROCESSED_BASE_PATH: /opt/airflow/data/processed
+      AIRFLOW_VAR_ANALYTICS_BASE_PATH: /opt/airflow/data/analytics
+      
     volumes:
       - ./dags:/opt/airflow/dags
       - ./data:/opt/airflow/data

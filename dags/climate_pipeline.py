@@ -1,14 +1,19 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.models import Variable
 from datetime import datetime
 import requests
 import pandas as pd
 import os
 
-CIDADE = 'Maceió'
-LATITUDE = -9.6498
-LONGITUDE = -35.7089
-TIMEZONE = 'America/Maceio'
+CIDADE = Variable.get("CLIMATE_CITY")
+LATITUDE = float(Variable.get("CLIMATE_LATITUDE"))
+LONGITUDE = float(Variable.get("CLIMATE_LONGITUDE"))
+TIMEZONE = Variable.get("CLIMATE_TIMEZONE")
+
+RAW_BASE_PATH = Variable.get("RAW_BASE_PATH")
+PROCESSED_BASE_PATH = Variable.get("PROCESSED_BASE_PATH")
+ANALYTICS_BASE_PATH = Variable.get("ANALYTICS_BASE_PATH")
 
 def extract_climate_data(**context):
     execution_date = context['ds']
@@ -47,7 +52,7 @@ def extract_climate_data(**context):
         'cobertura_nuvem_mean': data['daily']['cloudcover_mean']
     })
 
-    raw_path = f"/opt/airflow/data/raw/climatedata/{execution_date}.csv"
+    raw_path = f"{RAW_BASE_PATH}/climatedata/{execution_date}.csv"
     os.makedirs(os.path.dirname(raw_path), exist_ok=True)
     df.to_csv(raw_path, index=False)
 
@@ -97,7 +102,7 @@ def transform_data(**context):
     df['processed_at'] = datetime.utcnow()
 
     # 5. Persistência na camada PROCESSED
-    processed_path = f"/opt/airflow/data/processed/climatedata/{execution_date}.csv"
+    processed_path = f"{PROCESSED_BASE_PATH}/climatedata/{execution_date}.csv"
     os.makedirs(os.path.dirname(processed_path), exist_ok=True)
 
     df.to_csv(processed_path, index=False)
@@ -106,7 +111,7 @@ def transform_data(**context):
     return processed_path
 
 def load_processed_data(**context):
-    processed_dir = "/opt/airflow/data/processed/climatedata"
+    processed_dir = f"{PROCESSED_BASE_PATH}/climatedata"
 
     if not os.path.exists(processed_dir):
         raise FileNotFoundError("Diretório processed não encontrado")
@@ -134,7 +139,7 @@ def load_processed_data(**context):
     climatedatafull["analytics_generated_at"] = datetime.utcnow()
 
     # 5. Persistência
-    analytics_path = "/opt/airflow/data/analytics/climate_analytics.csv"
+    analytics_path = f"{ANALYTICS_BASE_PATH}/climate_analytics.csv"
     os.makedirs(os.path.dirname(analytics_path), exist_ok=True)
 
     climatedatafull.to_csv(analytics_path, index=False)
